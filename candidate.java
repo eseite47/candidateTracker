@@ -27,11 +27,8 @@ class Candidate
 		return fullName;
 	}
 	
-	//public [] getTemplate()
-	//{
-
-	//}
-
+// ------------------------------  Managing Candidate Stages
+	
 	public void getStageList()
 	{
 		for (int i = 0; i<stageList.length; i++)
@@ -39,21 +36,61 @@ class Candidate
 			System.out.println(i + ": " + stageList[i]);
 		}
 	}
-
-	public String getStage()
-	{
-		 return stageList[searchIndex];
-	}
 	
 	public void moveToNextStage()
 	{
 		searchIndex++;
 	}
 	
+	public void moveToPreviousStage()
+	{
+		searchIndex--;
+	}
+	
+	//return status as a string, to be used for other methods
+	public String getStage()
+	{
+		 return stageList[searchIndex];
+	}
+	
+	//prints out the the current stage as a sentence
 	public void getCurrentStage()
 	{
-	  System.out.println(fullName + " is currently in stage " + searchIndex);
+	  	System.out.println(fullName + " is currently in stage " + searchIndex);
 	}
-		
+	
+// ------------------------------ Email Prediction
+	
+	// provide email template to send out to candidate based on current stage
+	public void getTemplate()
+	{
+		System.out.println("hi " + firstName +",");
+		switch(searchIndex){
+		case 0:
+			System.out.println("We've got your application and are in the process of reviewing it. We will reach out to you should we be interested in pursuing your application.");
+			break;
+		case 1:
+			System.out.println("We've got your application and are in the process of reviewing it. We will reach out to you should we be interested in pursuing your application.");
+			break;
+		case 2:
+			System.out.println("We are impressed by your resume and would like to schedule a phone interview with one of our engineer. Could you provide me with your availabilities?");
+			break;
+		case 3:
+			System.out.println("As we remain impressed by your skills and experiences, we would like to invite you for an onsite interview. When would you be available to come meet us?");
+			break;
+		case 4:
+			System.out.println("Thank you for coming to meet us. Everyone really enjoyed meeting you and we would like additional information at this time. Could you provide us with the contact information of three professional reference?");
+			break;
+		case 5:
+			System.out.println("Congratulations! We have decided to offer you a role at our company. Please find attached your official offer letter.");
+			break;
+		case 6:
+			System.out.println("After much consideration, we have decided there was not a strong match between your skills and our needs at this time. Let's stay in touch!");
+			break;
+		default:
+			System.out.println("We are in the process of reviewing your candidacy and do not have an update at this time");
+			break;
+		}
+
 	
 }
