@@ -40,11 +40,13 @@ class Candidate
 	public void moveToNextStage()
 	{
 		searchIndex++;
+		System.out.println(fullName + " is currently in stage " + stageList[searchIndex]);
 	}
 	
 	public void moveToPreviousStage()
 	{
 		searchIndex--;
+		System.out.println(fullName + " is currently in stage " + stageList[searchIndex]);
 	}
 	
 	//return status as a string, to be used for other methods
@@ -56,13 +58,20 @@ class Candidate
 	//prints out the the current stage as a sentence
 	public void getCurrentStage()
 	{
-	  	System.out.println(fullName + " is currently in stage " + searchIndex);
+	  	System.out.println(fullName + " is currently in stage " + stageList[searchIndex]);
+	}
+
+	public void reject(Search search)
+	{
+		System.out.println("hi " + firstName +",");
+		System.out.println("After much consideration, we have decided there was not a strong match between your skills and our needs at this time. Let's stay in touch!");
+		search.archiveCandidate(this);
 	}
 	
 // ------------------------------ Email Prediction
 	
 	// provide email template to send out to candidate based on current stage
-	public void getTemplate()
+	public void scheduleInterview()
 	{
 		System.out.println("hi " + firstName +",");
 		switch(searchIndex){
@@ -81,16 +90,28 @@ class Candidate
 		case 4:
 			System.out.println("Thank you for coming to meet us. Everyone really enjoyed meeting you and we would like additional information at this time. Could you provide us with the contact information of three professional reference?");
 			break;
-		case 5:
-			System.out.println("Congratulations! We have decided to offer you a role at our company. Please find attached your official offer letter.");
-			break;
-		case 6:
-			System.out.println("After much consideration, we have decided there was not a strong match between your skills and our needs at this time. Let's stay in touch!");
-			break;
 		default:
-			System.out.println("We are in the process of reviewing your candidacy and do not have an update at this time");
+			System.out.println("Error: No interviews to schedule.");
 			break;
 		}
-
+	}
 	
+	public void missedInterview()
+	{
+		System.out.println("hi " + firstName +",");
+		System.out.println("We would like to reschedule your interview. When would you be able to connect with our engineer to chat?");
+	}
+	
+	public void sendOffer()
+	{
+		System.out.println("hi " + firstName +",");
+		System.out.println("Congratulations! We have decided to offer you a role at our company. Please find attached your official offer letter.");
+
+	}
+
+	public void keepWarm()
+	{
+		System.out.println("hi " + firstName +",");
+		System.out.println("We are in the process of reviewing your candidacy and do not have an update at this time");
+	}
 }
