@@ -12,6 +12,7 @@ class Search
 	String hiringManager ="";
 	int urgency =0;
 	ArrayList<Candidate> candidateList;
+	ArrayList<Candidate> archiveList;
 
   //Search Object Constructor
 	public Search (String hiringManager, String searchName, int urgency)
@@ -20,7 +21,7 @@ class Search
 		this.searchName = searchName;
 		this.urgency= urgency;
 		this.candidateList = new ArrayList<Candidate>();
-
+		this.archiveList = new ArrayList<Candidate>();
 	}
 
   //add candidates to the search
@@ -35,6 +36,13 @@ class Search
 		candidateList.remove(person);
 	}
 	
+ // Archived the candidate once it is turned down	
+	public void archiveCandidate(Candidate person)
+	{
+		candidateList.remove(person);
+		archiveList.add(person);
+	}
+
   //print candidate tracker for this search
 	public void getTracker()
 	{
@@ -44,5 +52,4 @@ class Search
 			System.out.println("- " + candidateList.get(i).getName() + ", " + candidateList.get(i).getStage());
 		}
 	}
-	
 }
