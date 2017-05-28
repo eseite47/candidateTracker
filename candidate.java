@@ -2,6 +2,12 @@
 This class manages candidates and their properties
 */
 
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 class Candidate
 {
 	//initalize variables
@@ -9,8 +15,13 @@ class Candidate
 	String lastName;
 	String fullName;
 	int searchIndex;
+	LocalDate created;
+	LocalDate lastActive;
+	LocalDate nextInterview;
+	LocalTime interviewTime;
 
-  // creating the stages within the search the candidates can be at
+
+  	// creating the stages within the search the candidates can be at
 	String[] stageList = {"Resume Review", "Hiring Manager review", "Phone Screen", "OnSite Interview", "Refeference Check", "Offer"};
 
 	//create new candidate
@@ -19,7 +30,10 @@ class Candidate
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.fullName = firstName + " " + lastName;
-		searchIndex = 0;	
+		searchIndex = 0;
+		lastActive = localDate.now();
+		nextInterview = null;
+		interviewTime = null;
 	}
 
 	public String getName()
@@ -27,7 +41,7 @@ class Candidate
 		return fullName;
 	}
 	
-// ------------------------------  Managing Candidate Stages
+// ------------ Managing Candidate Stages
 	
 	public void getStageList()
 	{
@@ -41,12 +55,14 @@ class Candidate
 	{
 		searchIndex++;
 		System.out.println(fullName + " is currently in stage " + stageList[searchIndex]);
+		lastActive = localDate.now();
 	}
 	
 	public void moveToPreviousStage()
 	{
 		searchIndex--;
 		System.out.println(fullName + " is currently in stage " + stageList[searchIndex]);
+		lastActive = localDate.now();
 	}
 	
 	//return status as a string, to be used for other methods
@@ -65,53 +81,43 @@ class Candidate
 	{
 		System.out.println("hi " + firstName +",");
 		System.out.println("After much consideration, we have decided there was not a strong match between your skills and our needs at this time. Let's stay in touch!");
+		lastActive = localDate.now();
 		search.archiveCandidate(this);
 	}
 	
+//------------------------------ Shedule and Manage Interviews
+	
+	public void scheduleInterview(int year, int month, int day, int hour, int minute)
+	{
+		nextInterview = LocalDate.of(year, month, day);
+		interviewTime = LocalTime.of(hour, minute);
+		System.out.print(fullname + "'s " +stageList[searchIndex] + " interview is scheduled for"+ nextInterview +" at " + interviewTime);
+	}
+
+	public void getSchedule()
+	{
+		System.out.print(fullname + "'s " +stageList[searchIndex] + " interview is scheduled for"+ nextInterview +" at " + interviewTime);
+	}
+}
+	
 // ------------------------------ Email Prediction
 	
-	// provide email template to send out to candidate based on current stage
-	public void scheduleInterview()
+	public String email(String command)
 	{
-		System.out.println("hi " + firstName +",");
-		switch(searchIndex){
-		case 0:
-			System.out.println("We've got your application and are in the process of reviewing it. We will reach out to you should we be interested in pursuing your application.");
-			break;
-		case 1:
-			System.out.println("We've got your application and are in the process of reviewing it. We will reach out to you should we be interested in pursuing your application.");
-			break;
-		case 2:
-			System.out.println("We are impressed by your resume and would like to schedule a phone interview with one of our engineer. Could you provide me with your availabilities?");
-			break;
-		case 3:
-			System.out.println("As we remain impressed by your skills and experiences, we would like to invite you for an onsite interview. When would you be available to come meet us?");
-			break;
-		case 4:
-			System.out.println("Thank you for coming to meet us. Everyone really enjoyed meeting you and we would like additional information at this time. Could you provide us with the contact information of three professional reference?");
-			break;
-		default:
-			System.out.println("Error: No interviews to schedule.");
-			break;
+		lastActive = localDate.now();
+		String key="";
+
+		if (command.equals "schedule")
+		{
+			key = "schedule " + stageList[searchIndex];
+			key.toLowerCase();
 		}
-	}
-	
-	public void missedInterview()
-	{
-		System.out.println("hi " + firstName +",");
-		System.out.println("We would like to reschedule your interview. When would you be able to connect with our engineer to chat?");
-	}
-	
-	public void sendOffer()
-	{
-		System.out.println("hi " + firstName +",");
-		System.out.println("Congratulations! We have decided to offer you a role at our company. Please find attached your official offer letter.");
+		else 
+		{
+			key = command.toLowerCase();
+		}
+		
+		return Template.email.get(key);
 
-	}
-
-	public void keepWarm()
-	{
-		System.out.println("hi " + firstName +",");
-		System.out.println("We are in the process of reviewing your candidacy and do not have an update at this time");
-	}
+	}	
 }
